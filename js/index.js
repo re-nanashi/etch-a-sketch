@@ -1,35 +1,75 @@
-const sidebar = document.querySelector('.sidebar');
-const containerGrid = document.querySelector('#container-grid');
-const expandButton = document.querySelector('#button-open');
-
-let drawing = false;
-let open = false;
-expandButton.addEventListener('click', activeHover);
-
-expandButton.onclick = function () {
-	sidebar.classList.toggle('sidebar_big');
+window.ondragstart = function () {
+	return false;
 };
 
-// setGridSize(16, 9);
-// fillGrid(16, 9);
+const sidebar = document.querySelector('.sidebar');
+const openButton = document.querySelector('#button-open');
+const containerGrid = document.querySelector('#container-grid');
+const buttons = document.querySelectorAll('[data-select]');
+
+let sideBarIsOpen = false;
+let isDrawing = false;
+let mode = 'none'; //pen, eraser, rainbow
+let color = 'black';
+
 setGridSize(160, 90);
-fillGrid(160, 90);
+executeGrid(160, 90);
+
+//160x90
+//32 x 18
+//64 x 36
+
+// make a container for buttons for readability
+openButton.addEventListener('click', activeSideBar);
+buttons.forEach((button) => {
+	button.addEventListener('click', function () {
+		// has e that determines what to do next then make a function for different purposes and toggle classlist and remove classlist for pen eraser rainbow
+		// if (mode !== 'none') {
+		// 	removeToggle();
+		// }
+		if (button.getAttribute('data-select') === 'pen') {
+			if (mode !== 'pen') {
+				removeToggle();
+			}
+			button.classList.toggle('active');
+			mode = 'pen';
+		}
+		if (button.getAttribute('data-select') === 'rainbow') {
+			if (mode !== 'rainbow') {
+				removeToggle();
+			}
+			button.classList.toggle('active');
+			mode = 'rainbow';
+		}
+		if (button.getAttribute('data-select') === 'eraser') {
+			if (mode !== 'eraser') {
+				removeToggle();
+			}
+			button.classList.toggle('active');
+			mode = 'eraser';
+		}
+		if (button.getAttribute('data-select') === 'trash') {
+			clear();
+		}
+	});
+});
 
 function setGridSize(columns, rows) {
 	containerGrid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 	containerGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 }
 
-function fillGrid(columns, rows) {
+function executeGrid(columns, rows) {
 	for (let i = 0; i < columns * rows; i++) {
 		const gridElement = document.createElement('div');
-		const gridContainer = document.querySelector('#container-grid');
 		gridElement.classList = 'grid-element';
 		gridElement.addEventListener('mouseover', changeColor);
-		gridContainer.appendChild(gridElement);
+		containerGrid.append(gridElement);
 	}
+	toggleDraw();
 }
 
+//change dependeing on user input
 function changeColor(e) {
 	const randomInt = (min, max) => {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -39,16 +79,55 @@ function changeColor(e) {
 	var s = randomInt(42, 98);
 	var l = randomInt(40, 90);
 
-	// e.target.style.backgroundColor = `hsl(${h},${s}%,${l}%)`;
-	e.target.style.backgroundColor = 'black';
+	if (isDrawing && mode === 'pen') {
+		//&& mode !== none
+		e.target.style.backgroundColor = 'black';
+	}
+	if (isDrawing && mode === 'rainbow') {
+		//&& mode !== none
+		e.target.style.backgroundColor = `hsl(${h},${s}%,${l}%)`;
+	}
+	if (isDrawing && mode === 'eraser') {
+		//&& mode !== none
+		e.target.style.backgroundColor = 'white';
+	}
 }
 
-function activeHover() {
-	if (!open) {
+function toggleDraw() {
+	containerGrid.addEventListener('mousedown', function () {
+		isDrawing = true;
+	});
+	containerGrid.addEventListener('mouseup', function () {
+		isDrawing = false;
+	});
+}
+
+function clear() {
+	let allElements = containerGrid.childNodes;
+	allElements.forEach((element) => {
+		element.style.backgroundColor = 'white';
+	});
+}
+
+function removeToggle() {
+	const activeButton = document.querySelectorAll('.toggleable');
+	activeButton.forEach((button) => {
+		button.classList.remove('active');
+	});
+	mode = 'none';
+}
+
+function activeSideBar() {
+	const buttonContainer = document.querySelectorAll('.button-container');
+	if (!sideBarIsOpen) {
 		this.src = './img/dinosaur-active.svg';
-		open = true;
+		sideBarIsOpen = true;
 	} else {
 		this.src = './img/dinosaur.svg';
-		open = false;
+		sideBarIsOpen = false;
 	}
+	sidebar.classList.toggle('sidebar_big');
+	buttonContainer.forEach((button) => {
+		button.classList.toggle('button-container-big');
+	});
 }

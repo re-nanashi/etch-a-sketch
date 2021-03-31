@@ -9,7 +9,36 @@
 	</head>
 	<body>
 		<div class="sidebar">
-			<img src="./img/dinosaur.svg" id="button-open" height="35px" />
+			<div class="dinosaur-container">
+				<img src="./img/dinosaur.svg" id="button-open" height="35px" />
+				<a href="#">Etch A Sketch</a>
+			</div>
+			<div class="select-button-container">
+				<div class="button-container" data-select="canvas-size">
+					<img src="./img/canvas.svg" height="25px" />
+					<a href="#">Size</a>
+				</div>
+				<div class="button-container toggleable" data-select="pen">
+					<img src="./img/pen.svg" height="25px" />
+					<a href="#">Pen</a>
+				</div>
+				<div class="button-container" data-select="color">
+					<img src="./img/color.svg" height="25px" />
+					<a href="#">Color</a>
+				</div>
+				<div class="button-container toggleable" data-select="rainbow">
+					<img src="./img/rainbow.svg" height="25px" />
+					<a href="#">Rainbow</a>
+				</div>
+				<div class="button-container toggleable" data-select="eraser">
+					<img src="./img/eraser.svg" height="25px" />
+					<a href="#">Eraser</a>
+				</div>
+				<div class="button-container" data-select="trash">
+					<img src="./img/trash.svg" height="25px" />
+					<a href="#">Trash</a>
+				</div>
+			</div>
 		</div>
 		<div class="main-content">
 			<div id="container-grid" class="grid"></div>
