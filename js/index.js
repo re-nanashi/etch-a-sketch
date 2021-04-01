@@ -1,16 +1,48 @@
+const sidebar = document.querySelector('.sidebar');
+const openSideBarButton = document.querySelector('#button-open');
+const containerGrid = document.querySelector('#container-grid');
+const selectMode = document.querySelectorAll('[data-mode]');
+const selectAction = document.querySelectorAll('[data-action]');
+
 window.ondragstart = function () {
 	return false;
 };
 
-const sidebar = document.querySelector('.sidebar');
-const openButton = document.querySelector('#button-open');
-const containerGrid = document.querySelector('#container-grid');
-const buttons = document.querySelectorAll('[data-select]');
-
 let sideBarIsOpen = false;
 let isDrawing = false;
-let mode = 'none'; //pen, eraser, rainbow
-let color = 'black';
+let mode = null;
+let currentColor = 'black';
+const pickr = Pickr.create({
+	el: '.color-picker',
+	theme: 'monolith',
+	default: 'black',
+	padding: 0,
+
+	swatches: [
+		'rgba(244, 67, 54, 1)',
+		'rgba(233, 30, 99, 0.95)',
+		'rgba(156, 39, 176, 0.9)',
+		'rgba(103, 58, 183, 0.85)',
+		'rgba(63, 81, 181, 0.8)',
+		'rgba(33, 150, 243, 0.75)',
+	],
+
+	components: {
+		preview: true,
+		opacity: true,
+		hue: true,
+		interaction: {
+			hex: true,
+			rgba: true,
+			input: true,
+		},
+	},
+});
+
+pickr.on('change', (color) => {
+	let rgbColor = color.toRGBA().toString();
+	currentColor = rgbColor;
+});
 
 setGridSize(160, 90);
 executeGrid(160, 90);
@@ -19,38 +51,25 @@ executeGrid(160, 90);
 //32 x 18
 //64 x 36
 
-// make a container for buttons for readability
-openButton.addEventListener('click', activeSideBar);
-buttons.forEach((button) => {
+openSideBarButton.addEventListener('click', openSideBar);
+
+selectMode.forEach((button) => {
 	button.addEventListener('click', function () {
-		// has e that determines what to do next then make a function for different purposes and toggle classlist and remove classlist for pen eraser rainbow
-		// if (mode !== 'none') {
-		// 	removeToggle();
-		// }
-		if (button.getAttribute('data-select') === 'pen') {
-			if (mode !== 'pen') {
-				removeToggle();
-			}
+		if (mode !== button.getAttribute('data-mode')) {
+			removeToggle();
 			button.classList.toggle('active');
-			mode = 'pen';
 		}
-		if (button.getAttribute('data-select') === 'rainbow') {
-			if (mode !== 'rainbow') {
-				removeToggle();
-			}
-			button.classList.toggle('active');
-			mode = 'rainbow';
+		if (mode === button.getAttribute('data-mode')) {
+			return removeToggle();
 		}
-		if (button.getAttribute('data-select') === 'eraser') {
-			if (mode !== 'eraser') {
-				removeToggle();
-			}
-			button.classList.toggle('active');
-			mode = 'eraser';
-		}
-		if (button.getAttribute('data-select') === 'trash') {
-			clear();
-		}
+		mode = button.getAttribute('data-mode');
+	});
+});
+
+selectAction.forEach((button) => {
+	button.addEventListener('click', function () {
+		if (button.getAttribute('data-action') === 'trash') clear();
+		if (button.getAttribute('data-action') === 'color') pickr.show();
 	});
 });
 
@@ -63,14 +82,13 @@ function executeGrid(columns, rows) {
 	for (let i = 0; i < columns * rows; i++) {
 		const gridElement = document.createElement('div');
 		gridElement.classList = 'grid-element';
-		gridElement.addEventListener('mouseover', changeColor);
+		gridElement.addEventListener('mouseover', draw);
 		containerGrid.append(gridElement);
 	}
 	toggleDraw();
 }
 
-//change dependeing on user input
-function changeColor(e) {
+function draw(e) {
 	const randomInt = (min, max) => {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	};
@@ -80,16 +98,13 @@ function changeColor(e) {
 	var l = randomInt(40, 90);
 
 	if (isDrawing && mode === 'pen') {
-		//&& mode !== none
-		e.target.style.backgroundColor = 'black';
+		e.target.style.backgroundColor = `${currentColor}`;
 	}
 	if (isDrawing && mode === 'rainbow') {
-		//&& mode !== none
 		e.target.style.backgroundColor = `hsl(${h},${s}%,${l}%)`;
 	}
 	if (isDrawing && mode === 'eraser') {
-		//&& mode !== none
-		e.target.style.backgroundColor = 'white';
+		e.target.style.backgroundColor = null;
 	}
 }
 
@@ -105,7 +120,7 @@ function toggleDraw() {
 function clear() {
 	let allElements = containerGrid.childNodes;
 	allElements.forEach((element) => {
-		element.style.backgroundColor = 'white';
+		element.style.backgroundColor = null;
 	});
 }
 
@@ -114,10 +129,10 @@ function removeToggle() {
 	activeButton.forEach((button) => {
 		button.classList.remove('active');
 	});
-	mode = 'none';
+	mode = null;
 }
 
-function activeSideBar() {
+function openSideBar() {
 	const buttonContainer = document.querySelectorAll('.button-container');
 	if (!sideBarIsOpen) {
 		this.src = './img/dinosaur-active.svg';
@@ -127,6 +142,7 @@ function activeSideBar() {
 		sideBarIsOpen = false;
 	}
 	sidebar.classList.toggle('sidebar_big');
+
 	buttonContainer.forEach((button) => {
 		button.classList.toggle('button-container-big');
 	});

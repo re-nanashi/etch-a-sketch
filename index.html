@@ -5,6 +5,10 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="./style/style.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css"
+		/>
 		<title>Etch a sketch</title>
 	</head>
 	<body>
@@ -14,27 +18,30 @@
 				<a href="#">Etch A Sketch</a>
 			</div>
 			<div class="select-button-container">
-				<div class="button-container" data-select="canvas-size">
+				<div class="button-container" data-action="canvas-size">
 					<img src="./img/canvas.svg" height="25px" />
 					<a href="#">Size</a>
 				</div>
-				<div class="button-container toggleable" data-select="pen">
+				<div class="button-container toggleable" data-mode="pen">
 					<img src="./img/pen.svg" height="25px" />
 					<a href="#">Pen</a>
 				</div>
-				<div class="button-container" data-select="color">
+				<div class="button-container color" data-action="color">
 					<img src="./img/color.svg" height="25px" />
 					<a href="#">Color</a>
+					<div class="pickr-container">
+						<div class="color-picker"></div>
+					</div>
 				</div>
-				<div class="button-container toggleable" data-select="rainbow">
+				<div class="button-container toggleable" data-mode="rainbow">
 					<img src="./img/rainbow.svg" height="25px" />
 					<a href="#">Rainbow</a>
 				</div>
-				<div class="button-container toggleable" data-select="eraser">
+				<div class="button-container toggleable" data-mode="eraser">
 					<img src="./img/eraser.svg" height="25px" />
 					<a href="#">Eraser</a>
 				</div>
-				<div class="button-container" data-select="trash">
+				<div class="button-container" data-action="trash">
 					<img src="./img/trash.svg" height="25px" />
 					<a href="#">Trash</a>
 				</div>
@@ -43,6 +50,8 @@
 		<div class="main-content">
 			<div id="container-grid" class="grid"></div>
 		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
 		<script src="./js/index.js"></script>
 	</body>
 </html>

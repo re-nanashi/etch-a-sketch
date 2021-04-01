@@ -21,6 +21,7 @@ body {
 	position: absolute;
 	width: 70px;
 	height: 98%;
+	max-height: 655px;
 	margin: 10px 8px 10px 8px;
 	background-color: rgba(33, 40, 49, 255);
 	transition: 0.5s ease;
@@ -75,6 +76,7 @@ body {
 }
 
 .button-container {
+	position: relative;
 	width: 50px;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -85,6 +87,14 @@ body {
 	transition: 0.07s;
 	filter: grayscale(0.9);
 }
+.pickr-container {
+	position: absolute;
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	visibility: hidden;
+}
+
 .button-container-big {
 	width: 210px;
 }
@@ -106,6 +116,7 @@ body {
 	font-size: 15px;
 	color: #fff;
 	padding-left: 50px;
+	padding-top: 3px;
 }
 
 #container-grid {
