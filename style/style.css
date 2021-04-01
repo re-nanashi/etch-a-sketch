@@ -42,6 +42,11 @@ body {
 	width: 230px;
 }
 
+.sidebar-hide {
+	transition: 0.05s ease-out;
+	visibility: hidden;
+}
+
 .dinosaur-container a {
 	position: absolute;
 	left: 80px;

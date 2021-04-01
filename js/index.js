@@ -17,14 +17,14 @@ const pickr = Pickr.create({
 	theme: 'monolith',
 	default: 'black',
 	padding: 0,
-
+	position: 'right-middle',
 	swatches: [
 		'rgba(244, 67, 54, 1)',
-		'rgba(233, 30, 99, 0.95)',
-		'rgba(156, 39, 176, 0.9)',
-		'rgba(103, 58, 183, 0.85)',
-		'rgba(63, 81, 181, 0.8)',
-		'rgba(33, 150, 243, 0.75)',
+		'rgba(233, 30, 99, 1)',
+		'rgba(156, 39, 176, 1)',
+		'rgba(103, 58, 183, 1)',
+		'rgba(63, 81, 181, 1)',
+		'rgba(33, 150, 243, 1)',
 	],
 
 	components: {
@@ -136,14 +136,27 @@ function openSideBar() {
 	const buttonContainer = document.querySelectorAll('.button-container');
 	if (!sideBarIsOpen) {
 		this.src = './img/dinosaur-active.svg';
+		hideSideBarText(sideBarIsOpen);
 		sideBarIsOpen = true;
 	} else {
 		this.src = './img/dinosaur.svg';
+		hideSideBarText(sideBarIsOpen);
 		sideBarIsOpen = false;
 	}
 	sidebar.classList.toggle('sidebar_big');
-
 	buttonContainer.forEach((button) => {
 		button.classList.toggle('button-container-big');
 	});
+}
+
+function hideSideBarText(param) {
+	if (param === false) {
+		sidebar.querySelectorAll('a').forEach((element) => {
+			element.classList.remove('sidebar-hide');
+		});
+	} else {
+		sidebar.querySelectorAll('a').forEach((element) => {
+			element.classList.add('sidebar-hide');
+		});
+	}
 }
