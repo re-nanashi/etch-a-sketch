@@ -15,10 +15,78 @@ body {
 	display: flex;
 	align-items: center;
 	background-color: rgba(106, 123, 143, 255);
+	justify-content: center;
+}
+
+#canvas-select.active {
+	visibility: visible;
+	transition: 0.5s;
+	background: rgba(33, 40, 49, 255);
+}
+
+.selection-container {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	height: 200px;
+	width: 400px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 20px;
+	z-index: 1;
+	visibility: hidden;
+}
+
+.logo {
+	display: flex;
+}
+
+.logo h1 {
+	font-family: 'Press Start 2P', cursive;
+	font-size: 20px;
+	margin-top: 20px;
+	color: salmon;
+}
+
+.selection-container p {
+	font-family: 'Poppins', sans-serif;
+	color: #fff;
+}
+.canvas-button-container {
+	padding-top: 15px;
+}
+
+.canvas-button-container .btn {
+	background-color: salmon;
+	border: 1px solid salmon;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	font-family: 'Poppins', sans-serif;
+	font-size: 16px;
+	cursor: pointer;
+	float: left;
+	outline: none;
+}
+.canvas-button-container .btn:not(:last-child) {
+	border-right: none;
+}
+
+.canvas-button-container .btn:hover {
+	background-color: rgb(202, 99, 87);
+}
+
+.blur {
+	transition: 0.5s;
+	filter: blur(20px);
+	pointer-events: none;
+	user-select: none;
 }
 
 .sidebar {
 	position: absolute;
+	left: 0;
 	width: 70px;
 	height: 98%;
 	max-height: 655px;

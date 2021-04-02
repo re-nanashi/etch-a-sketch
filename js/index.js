@@ -3,6 +3,7 @@ const openSideBarButton = document.querySelector('#button-open');
 const containerGrid = document.querySelector('#container-grid');
 const selectMode = document.querySelectorAll('[data-mode]');
 const selectAction = document.querySelectorAll('[data-action]');
+const canvasSelectButtons = document.querySelectorAll('.btn');
 
 window.ondragstart = function () {
 	return false;
@@ -10,8 +11,8 @@ window.ondragstart = function () {
 
 let sideBarIsOpen = false;
 let isDrawing = false;
-let mode = null;
 let currentColor = 'black';
+let mode = null;
 const pickr = Pickr.create({
 	el: '.color-picker',
 	theme: 'monolith',
@@ -39,17 +40,18 @@ const pickr = Pickr.create({
 	},
 });
 
-pickr.on('change', (color) => {
-	let rgbColor = color.toRGBA().toString();
-	currentColor = rgbColor;
+initializer();
+
+canvasSelectButtons.forEach((button) => {
+	button.addEventListener('click', function (e) {
+		let rows = e.target.getAttribute('data-rows');
+		let columns = e.target.getAttribute('data-columns');
+
+		setGridSize(rows, columns);
+		executeGrid(rows, columns);
+		startDrawing();
+	});
 });
-
-setGridSize(160, 90);
-executeGrid(160, 90);
-
-//160x90
-//32 x 18
-//64 x 36
 
 openSideBarButton.addEventListener('click', openSideBar);
 
@@ -70,8 +72,33 @@ selectAction.forEach((button) => {
 	button.addEventListener('click', function () {
 		if (button.getAttribute('data-action') === 'trash') clear();
 		if (button.getAttribute('data-action') === 'color') pickr.show();
+		if (button.getAttribute('data-action') === 'canvas-size') initializer();
 	});
 });
+
+pickr.on('change', (color) => {
+	let rgbColor = color.toRGBA().toString();
+	currentColor = rgbColor;
+});
+
+function initializer() {
+	let blur = document.querySelectorAll('.sketch-content');
+	let selectContainer = document.getElementById('canvas-select');
+
+	selectContainer.classList.add('active');
+	blur.forEach((content) => {
+		content.classList.add('blur');
+	});
+}
+
+function startDrawing() {
+	let blur = document.querySelectorAll('.sketch-content');
+	let selectContainer = document.getElementById('canvas-select');
+	selectContainer.classList.remove('active');
+	blur.forEach((content) => {
+		content.classList.remove('blur');
+	});
+}
 
 function setGridSize(columns, rows) {
 	containerGrid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
@@ -89,19 +116,13 @@ function executeGrid(columns, rows) {
 }
 
 function draw(e) {
-	const randomInt = (min, max) => {
-		return Math.floor(Math.random() * (max - min + 1)) + min;
-	};
-
-	var h = randomInt(0, 360);
-	var s = randomInt(42, 98);
-	var l = randomInt(40, 90);
+	var randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
 	if (isDrawing && mode === 'pen') {
 		e.target.style.backgroundColor = `${currentColor}`;
 	}
 	if (isDrawing && mode === 'rainbow') {
-		e.target.style.backgroundColor = `hsl(${h},${s}%,${l}%)`;
+		e.target.style.backgroundColor = `#${randomColor}`;
 	}
 	if (isDrawing && mode === 'eraser') {
 		e.target.style.backgroundColor = null;
@@ -133,7 +154,6 @@ function removeToggle() {
 }
 
 function openSideBar() {
-	const buttonContainer = document.querySelectorAll('.button-container');
 	if (!sideBarIsOpen) {
 		this.src = './img/dinosaur-active.svg';
 		hideSideBarText(sideBarIsOpen);
@@ -143,6 +163,11 @@ function openSideBar() {
 		hideSideBarText(sideBarIsOpen);
 		sideBarIsOpen = false;
 	}
+	toggleSideBar();
+}
+
+function toggleSideBar() {
+	const buttonContainer = document.querySelectorAll('.button-container');
 	sidebar.classList.toggle('sidebar_big');
 	buttonContainer.forEach((button) => {
 		button.classList.toggle('button-container-big');

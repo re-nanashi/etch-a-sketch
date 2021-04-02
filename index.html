@@ -12,7 +12,19 @@
 		<title>Etch a sketch</title>
 	</head>
 	<body>
-		<div class="sidebar">
+		<div id="canvas-select" class="selection-container">
+			<div class="logo">
+				<img src="./img/dinosaur-active.svg" height="50px" />
+				<h1>Etch A Sketch</h1>
+			</div>
+			<p>Choose canvas size:</p>
+			<div class="canvas-button-container">
+				<button class="btn" data-rows="32" data-columns="18">32 x 18</button>
+				<button class="btn" data-rows="64" data-columns="36">64 x 36</button>
+				<button class="btn" data-rows="160" data-columns="90">160 x 90</button>
+			</div>
+		</div>
+		<div class="sidebar sketch-content">
 			<div class="dinosaur-container">
 				<img src="./img/dinosaur.svg" id="button-open" height="35px" />
 				<a href="#">Etch A Sketch</a>
@@ -47,7 +59,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="main-content">
+		<div class="main-content sketch-content">
 			<div id="container-grid" class="grid"></div>
 		</div>
 
