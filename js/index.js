@@ -74,7 +74,10 @@ selectAction.forEach((button) => {
 	button.addEventListener('click', function () {
 		if (button.getAttribute('data-action') === 'trash') clear();
 		if (button.getAttribute('data-action') === 'color') pickr.show();
-		if (button.getAttribute('data-action') === 'canvas-size') initializer();
+		if (button.getAttribute('data-action') === 'canvas-size') {
+			initializer();
+			clear();
+		}
 	});
 });
 
