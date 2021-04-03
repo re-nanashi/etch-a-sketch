@@ -4,6 +4,8 @@ const containerGrid = document.querySelector('#container-grid');
 const selectMode = document.querySelectorAll('[data-mode]');
 const selectAction = document.querySelectorAll('[data-action]');
 const canvasSelectButtons = document.querySelectorAll('.btn');
+const selectContainer = document.getElementById('canvas-select');
+const sketchContent = document.querySelectorAll('.sketch-content');
 
 window.ondragstart = function () {
 	return false;
@@ -82,20 +84,15 @@ pickr.on('change', (color) => {
 });
 
 function initializer() {
-	let blur = document.querySelectorAll('.sketch-content');
-	let selectContainer = document.getElementById('canvas-select');
-
 	selectContainer.classList.add('active');
-	blur.forEach((content) => {
+	sketchContent.forEach((content) => {
 		content.classList.add('blur');
 	});
 }
 
 function startDrawing() {
-	let blur = document.querySelectorAll('.sketch-content');
-	let selectContainer = document.getElementById('canvas-select');
 	selectContainer.classList.remove('active');
-	blur.forEach((content) => {
+	sketchContent.forEach((content) => {
 		content.classList.remove('blur');
 	});
 }
@@ -140,6 +137,7 @@ function toggleDraw() {
 
 function clear() {
 	let allElements = containerGrid.childNodes;
+
 	allElements.forEach((element) => {
 		element.style.backgroundColor = null;
 	});
@@ -147,6 +145,7 @@ function clear() {
 
 function removeToggle() {
 	const activeButton = document.querySelectorAll('.toggleable');
+
 	activeButton.forEach((button) => {
 		button.classList.remove('active');
 	});
@@ -168,6 +167,7 @@ function openSideBar() {
 
 function toggleSideBar() {
 	const buttonContainer = document.querySelectorAll('.button-container');
+
 	sidebar.classList.toggle('sidebar_big');
 	buttonContainer.forEach((button) => {
 		button.classList.toggle('button-container-big');
