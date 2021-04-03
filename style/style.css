@@ -215,9 +215,6 @@ body {
 	#canvas-select {
 		transform: scale(0.8);
 	}
-	.sidebar {
-		left: -238px;
-	}
 	#container-grid {
 		min-height: 100vh;
 		min-width: 100vw;
