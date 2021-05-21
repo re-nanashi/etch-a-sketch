@@ -16,7 +16,7 @@ A simple beginner webpage that was created using HTML, CSS, and Javascript. It r
 
 ### Sidebar
 
-<img src="./img/readme/demo-mobile.png" height="600">
+<img src="./img/readme/demo-sidebar.png" height="600">
 
 ### Things that I learned
 
@@ -32,7 +32,7 @@ A simple beginner webpage that was created using HTML, CSS, and Javascript. It r
 ## Development
 
 1. Clone the project <br>
-   `git clone https://github.com/TheBoringDude/creep.git`
+   `git clone https://github.com/re-nanashi/etch-a-sketch.git`
 
 2. Install npm
 
