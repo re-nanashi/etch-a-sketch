@@ -7,6 +7,7 @@ const canvasSelectButtons = document.querySelectorAll('.btn');
 const selectContainer = document.getElementById('canvas-select');
 const sketchContent = document.querySelectorAll('.sketch-content');
 
+//No element drags inside browser
 window.ondragstart = function () {
 	return false;
 };
@@ -15,6 +16,7 @@ let sideBarIsOpen = false;
 let isDrawing = false;
 let currentColor = 'black';
 let mode = null;
+//Color palette
 const pickr = Pickr.create({
 	el: '.color-picker',
 	theme: 'monolith',
@@ -42,8 +44,10 @@ const pickr = Pickr.create({
 	},
 });
 
+//Initialize web app
 initializer();
 
+//Event: canvas selection
 canvasSelectButtons.forEach((button) => {
 	button.addEventListener('click', function (e) {
 		let rows = e.target.getAttribute('data-rows');
@@ -55,8 +59,10 @@ canvasSelectButtons.forEach((button) => {
 	});
 });
 
+//Event: side bar collapse
 openSideBarButton.addEventListener('click', openSideBar);
 
+//Event: sketch mode select
 selectMode.forEach((button) => {
 	button.addEventListener('click', function () {
 		if (mode !== button.getAttribute('data-mode')) {
@@ -70,6 +76,7 @@ selectMode.forEach((button) => {
 	});
 });
 
+//Event: select app tools
 selectAction.forEach((button) => {
 	button.addEventListener('click', function () {
 		if (button.getAttribute('data-action') === 'trash') clear();
@@ -81,11 +88,13 @@ selectAction.forEach((button) => {
 	});
 });
 
+//Color picker
 pickr.on('change', (color) => {
 	let rgbColor = color.toRGBA().toString();
 	currentColor = rgbColor;
 });
 
+//Initializes content page
 function initializer() {
 	selectContainer.classList.add('active');
 	sketchContent.forEach((content) => {
@@ -100,11 +109,13 @@ function startDrawing() {
 	});
 }
 
+//Function: renders grid from user selection
 function setGridSize(columns, rows) {
 	containerGrid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 	containerGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 }
 
+//Function: Start drawing by appending grid
 function executeGrid(columns, rows) {
 	for (let i = 0; i < columns * rows; i++) {
 		const gridElement = document.createElement('div');
