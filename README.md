@@ -1,6 +1,6 @@
 ![demo](./img/readme/demo.png?raw=true)
 
-# Etch-A-Sketch
+# (REFACTORING IN PROGRESS) Etch-A-Sketch
 
 A simple webpage that let users etch a sketch.
 
